@@ -186,6 +186,50 @@ const incrementCart = async (req, res) => {
     });
   }
 };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({ users: users ? users : "", success: users ? 1 : 0 });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: 0,
+      message: "Internal server?",
+    });
+  }
+};
+const changeRole = async (req, res) => {
+  try {
+    const { _id, role } = req.body;
+
+    if (!_id || !role) return res.status(400).json({ success: 0 });
+    if (req.user.role !== 1) return res.status(400).json({ success: 0 });
+    const user = await User.findByIdAndUpdate(_id, { role }, { new: true });
+    res.status(200).json({ success: user ? 1 : 0 });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: 0,
+      message: "Internal server?",
+    });
+  }
+};
+const deleteUserByAd = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) return res.status(400).json({ success: 0 });
+
+    const user = await User.findByIdAndDelete(_id);
+    res.status(200).json({ success: user ? 1 : 0 });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: 0,
+      message: "Internal server?",
+    });
+  }
+};
 
 module.exports = {
   register,
@@ -195,4 +239,7 @@ module.exports = {
   deleteCart,
   decrementCart,
   incrementCart,
+  getUsers,
+  changeRole,
+  deleteUserByAd,
 };

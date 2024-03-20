@@ -9,6 +9,10 @@ userRouter.put("/incrementCart", verifyToken, ctl.incrementCart);
 userRouter.delete("/deleteCart", verifyToken, ctl.deleteCart);
 
 userRouter.get("/current", verifyToken, ctl.getCurrent);
+userRouter.get("/", [verifyToken, isAdmin], ctl.getUsers);
+
+userRouter.put("/changeRole", [verifyToken, isAdmin], ctl.changeRole);
+userRouter.delete("/delete-user", [verifyToken, isAdmin], ctl.deleteUserByAd);
 
 // check admin và user
 userRouter.get("/userAuth", verifyToken, (req, res) => {
