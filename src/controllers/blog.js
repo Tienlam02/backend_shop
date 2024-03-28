@@ -38,7 +38,7 @@ const getBlogs = async (req, res) => {
 
     // pagination
     const page = +req.query.page || 1;
-    const limit = +req.query.limit || 8;
+    const limit = +req.query.limit || 20;
     const skip = (page - 1) * limit;
 
     queryCommand = queryCommand.skip(skip).limit(limit);
@@ -62,7 +62,7 @@ const getBlogs = async (req, res) => {
 const getBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await Blog.findById(id);
+    const data = await Blog.findById(id).populate("comment.commentByUser");
     res.status(200).json({
       success: data ? 1 : 0,
       blog: data ? data : "",
@@ -105,9 +105,64 @@ const createBlog = async (req, res) => {
     console.log(error);
   }
 };
+const comment = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { id, desc } = req.body;
+    if (!id || !_id || !desc)
+      return res
+        .status(400)
+        .json({ success: 0, mess: "Vui lòng cung cấp đủ thông tin" });
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          comment: {
+            commentByUser: _id,
+            content: desc,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: blog ? 1 : 0,
+      mess: "Đã thêm mới bình luận",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server",
+      success: 0,
+    });
+    console.log(error);
+  }
+};
+const deleteBlog = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    if (!_id)
+      return res
+        .status(400)
+        .json({ success: 0, mess: "Vui lòng cung cấp đủ thông tin" });
+    const blog = await Blog.findByIdAndDelete(_id);
+
+    res.status(200).json({
+      success: blog ? 1 : 0,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server",
+      success: 0,
+    });
+    console.log(error);
+  }
+};
 
 module.exports = {
   getBlogs,
   getBlog,
   createBlog,
+  comment,
+  deleteBlog,
 };

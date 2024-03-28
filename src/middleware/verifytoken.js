@@ -6,6 +6,7 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.SECRET, (err, decode) => {
       if (err)
         return res.status(401).json({
+          status: 401,
           success: 0,
           mess: "Token invalid or Expiresin",
         });

@@ -21,6 +21,7 @@ var blogSchema = new mongoose.Schema(
         content: {
           type: String,
         },
+        createdAt: { type: Date, default: Date.now },
       },
     ],
   },
