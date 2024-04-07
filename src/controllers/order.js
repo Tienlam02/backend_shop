@@ -54,7 +54,9 @@ const getOrder = async (req, res) => {
 };
 const getOrders = async (req, res) => {
   try {
-    const data = await Order.find().populate("products.productId");
+    const data = await Order.find()
+      .sort("-createdAt")
+      .populate("products.productId");
 
     res.status(200).json({
       success: data ? 1 : 0,
@@ -89,10 +91,31 @@ const updateOrder = async (req, res) => {
     });
   }
 };
+const cancelOrder = async (req, res) => {
+  try {
+    const { id } = req.body.data;
+
+    if (!id) return res.status(400).json({ success: 0 });
+    const data = await Order.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: data ? 1 : 0,
+      message: data ? "Hủy đơn hàng thành công" : "Lỗi",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server",
+      success: 0,
+      error,
+    });
+  }
+};
 
 module.exports = {
   createOrder,
   getOrder,
   getOrders,
   updateOrder,
+  cancelOrder,
 };

@@ -8,6 +8,7 @@ const productRouter = require("./src/routes/product");
 const categoryRouter = require("./src/routes/category");
 const orderRouter = require("./src/routes/order");
 const blogRouter = require("./src/routes/blog");
+const reportRouter = require("./src/routes/report");
 
 const app = express();
 app.use(cors());
@@ -19,5 +20,6 @@ app.use("/product", productRouter);
 app.use("/category", categoryRouter);
 app.use("/order", orderRouter);
 app.use("/blog", blogRouter);
+app.use("/report", reportRouter);
 
 app.listen(5000, () => console.log("Server on"));

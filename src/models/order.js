@@ -17,7 +17,14 @@ var orderSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "Proccessing",
-      enum: ["Cancelled", "Proccessing", "Shiping", "Success", "Return"],
+      enum: [
+        "Cancelled",
+        "Proccessing",
+        "Accept",
+        "Shiping",
+        "Success",
+        "Return",
+      ],
     },
     fullname: {
       type: String,

@@ -6,5 +6,6 @@ orderRouter.post("/", verifyToken, ctl.createOrder);
 orderRouter.get("/user", verifyToken, ctl.getOrder);
 orderRouter.get("/", [verifyToken, isAdmin], ctl.getOrders);
 orderRouter.put("/", [verifyToken, isAdmin], ctl.updateOrder);
+orderRouter.delete("/", verifyToken, ctl.cancelOrder);
 
 module.exports = orderRouter;

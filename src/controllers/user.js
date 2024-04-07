@@ -106,7 +106,7 @@ const login = async (req, res) => {
         { _id: user._id, role: user.role },
         process.env.SECRET,
         {
-          expiresIn: "7d",
+          expiresIn: "1d",
         }
       );
       return res.status(200).json({
