@@ -61,7 +61,6 @@ const updateCart = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: error,
@@ -83,7 +82,6 @@ const deleteCart = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: error,
@@ -136,7 +134,6 @@ const getCurrent = async (req, res) => {
       user: data ? data : "",
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",
@@ -158,7 +155,6 @@ const decrementCart = async (req, res) => {
 
     res.status(200).json({ user: user ? user : "", success: user ? 1 : 0 });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",
@@ -179,7 +175,6 @@ const incrementCart = async (req, res) => {
 
     res.status(200).json({ user: user ? user : "", success: user ? 1 : 0 });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",
@@ -191,7 +186,6 @@ const getUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).json({ users: users ? users : "", success: users ? 1 : 0 });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",
@@ -207,7 +201,6 @@ const changeRole = async (req, res) => {
     const user = await User.findByIdAndUpdate(_id, { role }, { new: true });
     res.status(200).json({ success: user ? 1 : 0 });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",
@@ -223,7 +216,6 @@ const deleteUserByAd = async (req, res) => {
     const user = await User.findByIdAndDelete(_id);
     res.status(200).json({ success: user ? 1 : 0 });
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       success: 0,
       message: "Internal server?",

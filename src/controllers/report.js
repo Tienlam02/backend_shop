@@ -30,7 +30,7 @@ const income = async (req, res) => {
       numberOfProductPerCat,
       totalOrderOfDay,
       newUserOfDay,
-      ,
+      totalPriceOrderOfDay,
     ] = await Promise.all([
       Order.find({ status: "Success" }).select("totalPriceOrder"),
       Product.find().countDocuments(),
@@ -65,6 +65,23 @@ const income = async (req, res) => {
       User.find({
         createdAt: { $gte: startOfDay, $lt: endOfDay },
       }).countDocuments(),
+      Order.aggregate([
+        {
+          $match: {
+            updatedAt: { $gte: startOfWeek, $lt: endOfWeek },
+            status: "Success", // chỉ tính tổng doanh thu từ các đơn hàng đã thành công
+          },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+            totalRevenue: { $sum: "$totalPriceOrder" },
+          },
+        },
+        {
+          $sort: { _id: 1 }, // Sắp xếp theo ngày tăng dần
+        },
+      ]),
     ]);
 
     res.status(200).json({
@@ -78,9 +95,9 @@ const income = async (req, res) => {
         : null,
       totalOrderOfDay: totalOrderOfDay ? totalOrderOfDay : null,
       newUserOfDay: newUserOfDay ? newUserOfDay : null,
+      totalPriceOrderOfDay: totalPriceOrderOfDay ? totalPriceOrderOfDay : null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: 0,
       message: "Internal server",

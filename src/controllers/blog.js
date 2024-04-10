@@ -56,7 +56,6 @@ const getBlogs = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 const getBlog = async (req, res) => {
@@ -72,7 +71,6 @@ const getBlog = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 const createBlog = async (req, res) => {
@@ -102,7 +100,6 @@ const createBlog = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 const comment = async (req, res) => {
@@ -135,7 +132,6 @@ const comment = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 const deleteBlog = async (req, res) => {
@@ -155,7 +151,6 @@ const deleteBlog = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 

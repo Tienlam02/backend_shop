@@ -23,7 +23,6 @@ const createOrder = async (req, res) => {
       user: data ? data : null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -44,7 +43,6 @@ const getOrder = async (req, res) => {
       order: data ? data : null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -63,7 +61,6 @@ const getOrders = async (req, res) => {
       order: data ? data : null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -83,7 +80,6 @@ const updateOrder = async (req, res) => {
       message: data ? "Cập nhật đơn hàng thành công" : "Lỗi",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -103,7 +99,6 @@ const cancelOrder = async (req, res) => {
       message: data ? "Hủy đơn hàng thành công" : "Lỗi",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,

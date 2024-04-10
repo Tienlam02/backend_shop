@@ -2,6 +2,7 @@ const Category = require("../models/category");
 
 const getCategories = async (req, res) => {
   try {
+    console.log("Server on");
     const data = await Category.find();
     res.status(200).json({
       success: data ? 1 : 0,
@@ -12,7 +13,6 @@ const getCategories = async (req, res) => {
       message: "Internal server",
       success: 0,
     });
-    console.log(error);
   }
 };
 

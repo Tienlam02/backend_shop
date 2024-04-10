@@ -3,11 +3,11 @@ const Product = require("../models/product");
 const getProducts = async (req, res) => {
   try {
     const queries = { ...req.query };
-    console.log("query ban dau", queries);
+
     //tách các trường đặc biệt
     const excludeFields = ["limit", "sort", "page", "fields"];
     excludeFields.forEach((el) => delete queries[el]);
-    console.log("query sao khi tac lan 1", queries);
+
     //format lại các trường
     let queryString = JSON.stringify(queries);
     queryString = queryString.replace(
@@ -15,7 +15,7 @@ const getProducts = async (req, res) => {
       (matchedEl) => `$${matchedEl}`
     );
     const formatedQueries = JSON.parse(queryString);
-    console.log(formatedQueries);
+
     if (queries?.name)
       // tìm kiếm theo name có chứa 1 từ trong title gửi từ client
       formatedQueries.name = { $regex: queries.name, $options: "i" };
@@ -55,7 +55,6 @@ const getProducts = async (req, res) => {
       products: response ? response : "Something went wrong",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -72,7 +71,6 @@ const getProduct = async (req, res) => {
       product: response ? response : "Something went wrong",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -89,7 +87,6 @@ const deleteProduct = async (req, res) => {
       productId: data ? data._id : "",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -123,7 +120,6 @@ const createProduct = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -153,7 +149,6 @@ const updateFullProduct = async (req, res) => {
       products: data ? data : "",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Internal server",
       success: 0,
@@ -168,56 +163,3 @@ module.exports = {
   deleteProduct,
   updateFullProduct,
 };
-// const getProducts = asyncHandler(async (req, res) => {
-//     const queries = { ...req.query };
-//     console.log("query ban dau", queries);
-//     //tách các trường đặc biệt
-//     const excludeFields = ["limit", "sort", "page", "fields"];
-//     excludeFields.forEach((el) => delete queries[el]);
-//     console.log("query sao khi tac lan 1", queries);
-//     //format lại các trường
-//     let queryString = JSON.stringify(queries);
-//     queryString = queryString.replace(
-//       /\b(gt|gte|lt|lte)\b/g,
-//       (matchedEl) => `$${matchedEl}`
-//     );
-//     const formatedQueries = JSON.parse(queryString);
-
-//     if (queries?.title)
-//       // tìm kiếm theo title có chứa 1 từ trong title gửi từ client
-//       formatedQueries.title = { $regex: queries.title, $options: "i" };
-
-//     let queryCommand = Product.find(formatedQueries);
-
-//     // sort
-//     if (req.query.sort) {
-//       const sortBy = req.query.sort.split(",").join(" ");
-//       queryCommand = queryCommand.sort(sortBy);
-//     }
-
-//     // fields
-//     if (req.query.fields) {
-//       const fields = req.query.fields.split(",").join(" ");
-//       queryCommand = queryCommand.select(fields);
-//     } else {
-//       queryCommand = queryCommand.select("-__v");
-//     }
-
-//     // pagination
-//     const page = +req.query.page || 1;
-//     const limit = +req.query.limit || 8;
-//     const skip = (page - 1) * limit;
-
-//     queryCommand = queryCommand.skip(skip).limit(limit);
-
-//     const [response, count] = await Promise.all([
-//       queryCommand,
-//       Product.find(formatedQueries).countDocuments(),
-//     ]);
-
-//     return res.status(200).json({
-//       success: response ? 1 : 0,
-//       count,
-//       product: response ? response : "Something went wrong",
-//     });
-//   });
