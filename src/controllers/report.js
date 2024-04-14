@@ -35,7 +35,7 @@ const income = async (req, res) => {
       Order.find({ status: "Success" }).select("totalPriceOrder"),
       Product.find().countDocuments(),
       Order.find().countDocuments(),
-      Order.find().countDocuments(),
+      User.find().countDocuments(),
       Product.aggregate([
         {
           $group: {
