@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
           mess: "Token invalid or Expiresin",
         });
       req.user = decode;
-      console.log(req.user);
+      console.log(req.user._id);
       next();
     });
   } else {
