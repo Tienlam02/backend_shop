@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const Product = require("../models/product");
 const User = require("../models/user");
 const createOrder = async (req, res) => {
   try {
@@ -70,9 +71,19 @@ const getOrders = async (req, res) => {
 };
 const updateOrder = async (req, res) => {
   try {
-    const { id, status } = req.body.data;
+    const { id, status, idUser } = req.body.data;
 
     if (!id || !status) return res.status(400).json({ success: 0 });
+
+    const arrProduct = await User.findById(idUser).select("cart");
+    if (status === "Success") {
+      arrProduct.cart?.forEach(async (item) => {
+        await Product.findByIdAndUpdate(item.product, {
+          $inc: { sold: item.quantity, quantity: -item.quantity },
+        });
+      });
+    }
+
     const data = await Order.findByIdAndUpdate(id, { status });
 
     res.status(200).json({
